@@ -288,10 +288,10 @@ public class EmulatorHelper implements MemoryFaultHandler, EmulatorConfiguration
 		long offset = readRegister(stackPtrReg).longValue() + relativeOffset;
 		byte[] bytes = new byte[size];
 		if (program.getMemory().isBigEndian()) {
-			BigEndianDataConverter.INSTANCE.getBytes(value, bytes);
+			BigEndianDataConverter.INSTANCE.getBytes(value, size, bytes, 0);
 		}
 		else {
-			LittleEndianDataConverter.INSTANCE.getBytes(value, bytes);
+			LittleEndianDataConverter.INSTANCE.getBytes(value, size, bytes, 0);
 		}
 		writeMemory(stackMemorySpace.getAddress(offset), bytes);
 	}
@@ -318,7 +318,7 @@ public class EmulatorHelper implements MemoryFaultHandler, EmulatorConfiguration
 
 	/**
 	 * Establish breakpoint
-	 * @param addr memory address for new breakpoint
+	 * @param address memory address for new breakpoint
 	 */
 	public void setBreakpoint(Address addr) {
 		emulator.getBreakTable().registerAddressCallback(addr, addressBreak);
@@ -326,7 +326,7 @@ public class EmulatorHelper implements MemoryFaultHandler, EmulatorConfiguration
 
 	/**
 	 * Clear breakpoint
-	 * @param addr memory address for breakpoint to be cleared
+	 * @param address memory address for breakpoint to be cleared
 	 */
 	public void clearBreakpoint(Address addr) {
 		emulator.getBreakTable().unregisterAddressCallback(addr);
@@ -363,8 +363,8 @@ public class EmulatorHelper implements MemoryFaultHandler, EmulatorConfiguration
 	 * Register callback for language defined pcodeop (call other).
 	 * WARNING! Using this method may circumvent the default CALLOTHER emulation support
 	 * when supplied by the Processor module.
-	 * @param pcodeOpName the name of the pcode op
-	 * @param callback the callback to register
+	 * @param pcodeOpName
+	 * @param callback
 	 */
 	public void registerCallOtherCallback(String pcodeOpName, BreakCallBack callback) {
 		emulator.getBreakTable().registerPcodeCallback(pcodeOpName, callback);
@@ -374,7 +374,8 @@ public class EmulatorHelper implements MemoryFaultHandler, EmulatorConfiguration
 	 * Register default callback for language defined pcodeops (call other).
 	 * WARNING! Using this method may circumvent the default CALLOTHER emulation support
 	 * when supplied by the Processor module.
-	 * @param callback the default callback to register
+	 * @param pcodeOpName
+	 * @param callback
 	 */
 	public void registerDefaultCallOtherCallback(BreakCallBack callback) {
 		emulator.getBreakTable().registerPcodeCallback("*", callback);
@@ -382,7 +383,7 @@ public class EmulatorHelper implements MemoryFaultHandler, EmulatorConfiguration
 
 	/**
 	 * Unregister callback for language defined pcodeop (call other).
-	 * @param pcodeOpName the name of the pcode op
+	 * @param pcodeOpName
 	 */
 	public void unregisterCallOtherCallback(String pcodeOpName) {
 		emulator.getBreakTable().unregisterPcodeCallback(pcodeOpName);
