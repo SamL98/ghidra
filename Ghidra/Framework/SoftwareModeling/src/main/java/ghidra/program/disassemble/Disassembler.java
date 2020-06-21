@@ -924,11 +924,11 @@ public class Disassembler implements DisassemblerConflictHandler {
 				//       the previous buffering done here was not doing any buffering
                 MemBuffer instrMemBuffer;
 
-                try {
-				    instrMemBuffer = new DumbMemBufferImpl(blockMemBuffer.getMemory(), addr);
-                } catch(UnsupportedOperationException e) {
-                    instrMemBuffer = blockMemBuffer;
-                }
+				try {
+					instrMemBuffer = new DumbMemBufferImpl(blockMemBuffer.getMemory(), addr);
+				} catch(UnsupportedOperationException e) {
+					instrMemBuffer = blockMemBuffer;
+				}
 
 				adjustPreParseContext(instrMemBuffer);
 
