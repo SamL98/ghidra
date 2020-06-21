@@ -922,7 +922,7 @@ public class Disassembler implements DisassemblerConflictHandler {
 
 				// TODO: An overall better caching of bytes for this block could be done instead
 				//       the previous buffering done here was not doing any buffering
-                MemBuffer instrMemBuffer;
+				MemBuffer instrMemBuffer;
 
 				try {
 					instrMemBuffer = new DumbMemBufferImpl(blockMemBuffer.getMemory(), addr);
